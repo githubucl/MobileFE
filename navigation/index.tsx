@@ -20,7 +20,8 @@ import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import Dashboard from "../screens/Dashboard";
 import LoginScreen from "../screens/LoginScreen";
-import TabTwoScreen from "../screens/TabTwoScreen";
+import RegisterScreen from "../screens/RegisterScreen";
+
 import {
   RootStackParamList,
   RootTabParamList,
@@ -52,9 +53,13 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const globalScreenOptions = {};
 function RootNavigator() {
   return (
-    <Stack.Navigator screenOptions={globalScreenOptions}>
+    <Stack.Navigator
+      initialRouteName="Login"
+      screenOptions={globalScreenOptions}
+    >
       <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
+      <Stack.Screen name="Dashboard" component={Dashboard} />
+      <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}

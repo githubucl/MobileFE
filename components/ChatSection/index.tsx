@@ -1,8 +1,6 @@
 import React from "react";
-import { StyleSheet, FlatList } from "react-native";
-import { Text, View } from "../Themed";
+import { StyleSheet, FlatList, View } from "react-native";
 import ChatMessage from "./ChatMessage";
-
 import { chats } from "../../data/chat";
 const ChatSection = () => {
   return (
@@ -24,11 +22,11 @@ const ChatSection = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    flex: 1,
+    // alignItems: "center",
+    // justifyContent: "center",
     // backgroundColor: "white",
-    height: 400,
+    // height: 400,
   },
 });
 
