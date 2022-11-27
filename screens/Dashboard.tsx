@@ -18,7 +18,10 @@ import socket from "../utils/socket";
 
 export default function Dashboard({ navigation }) {
   const [input, setInput] = useState("");
-  console.log("input", input);
+  const [roomInfo, setRoomInfo] = useState({
+    pot: 0,
+    users: [],
+  });
   const onSliderChange = (e) => {
     setInput(`${e[0].toFixed(0)}`);
     Platform.OS !== "web" &&
@@ -41,7 +44,6 @@ export default function Dashboard({ navigation }) {
     setInput(newText);
   };
   const submitHandler = (e) => {
-    console.log("submitted");
     e.preventDefault();
     socket.emit("chipAction", input, (error) => {
       if (error) {
@@ -61,6 +63,21 @@ export default function Dashboard({ navigation }) {
     });
   }, []);
 
+  useEffect(() => {
+    const potUpdateHandler = (roomInfo) => {
+      console.log("hji", roomInfo);
+      setRoomInfo(roomInfo);
+    };
+    socket.on("potUpdate", potUpdateHandler);
+
+    return () => {
+      const clear = async () => {
+        socket.off("message", potUpdateHandler);
+      };
+      clear();
+    };
+  }, []);
+
   return (
     <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
       <KeyboardAvoidingView
@@ -69,7 +86,7 @@ export default function Dashboard({ navigation }) {
         keyboardVerticalOffset={200}
       >
         <View>
-          <Text style={styles.poolAmount}>1000000 $</Text>
+          <Text style={styles.poolAmount}>{roomInfo?.pot}</Text>
         </View>
         <ChatSection />
 
@@ -90,11 +107,9 @@ export default function Dashboard({ navigation }) {
           onValueChange={onSliderChange}
           maximumValue={100}
           containerStyle={styles.input}
-          minimumValue={0}
+          minimumValue={-100}
           trackClickable={false}
           thumbTouchSize={styles.thumb}
-          // minimumTrackTintColor="#FFFFFF"
-          // maximumTrackTintColor="#000000"
         />
       </KeyboardAvoidingView>
     </SafeAreaView>

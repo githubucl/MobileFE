@@ -1,21 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, View } from "react-native";
 import ChatMessage from "./ChatMessage";
 import { chats } from "../../data/chat";
+import { Message } from "../../types";
+import socket from "../../utils/socket";
+
 const ChatSection = () => {
+  const [message, setMessage] = useState<Message[] | []>([]);
+  useEffect(() => {
+    const messageHandler = (message) => {
+      setMessage((prevMe) => [
+        ...prevMe,
+        {
+          id: message.id,
+          username: message.username,
+          content: message.text,
+          createdAt: message.createdAt,
+        },
+      ]);
+    };
+    socket.on("message", messageHandler);
+    return () => {
+      const clear = async () => {
+        socket.off("message", messageHandler);
+      };
+      clear();
+    };
+  }, []);
   return (
     <View style={styles.container}>
       <FlatList
-        data={chats}
+        data={message || chats}
         renderItem={({ item }) => {
           return <ChatMessage message={item} />;
         }}
       />
-      {/* <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      /> */}
     </View>
   );
 };
