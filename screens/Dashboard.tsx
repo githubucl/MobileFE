@@ -1,11 +1,10 @@
-import react, { useState } from "react";
+import react, { useState, useEffect } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
 } from "react-native";
 import * as Haptics from "expo-haptics";
 import EditScreenInfo from "../components/EditScreenInfo";
@@ -14,14 +13,54 @@ import { Text, View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
 import ChatSection from "../components/ChatSection";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Slider from "@react-native-community/slider";
+import { Slider } from "@miblanchard/react-native-slider";
+import socket from "../utils/socket";
 
-export default function Dashboard({}) {
+export default function Dashboard({ navigation }) {
   const [input, setInput] = useState("");
-  const sendMessage = () => {};
-  const onSliderChange = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  console.log("input", input);
+  const onSliderChange = (e) => {
+    setInput(`${e[0].toFixed(0)}`);
+    Platform.OS !== "web" &&
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
+  //get the name and table from the navigation params
+  const { name, table } = navigation.getState().routes[0].params;
+
+  const textChangeHandler = (text: string) => {
+    let newText = "";
+    let numbers = "0123456789";
+
+    for (var i = 0; i < text.length; i++) {
+      if (numbers.indexOf(text[i]) > -1) {
+        newText = newText + text[i];
+      } else {
+        alert("please enter numbers only");
+      }
+    }
+    setInput(newText);
+  };
+  const submitHandler = (e) => {
+    console.log("submitted");
+    e.preventDefault();
+    socket.emit("chipAction", input, (error) => {
+      if (error) {
+        return console.log(error);
+      }
+      console.log("message delitered");
+    });
+    setInput("");
+  };
+
+  useEffect(() => {
+    socket.emit("join", { username: name, room: table }, (error: any) => {
+      if (error) {
+        alert(error);
+        navigation.replace("Login");
+      }
+    });
+  }, []);
+
   return (
     <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
       <KeyboardAvoidingView
@@ -29,33 +68,34 @@ export default function Dashboard({}) {
         style={styles.container}
         keyboardVerticalOffset={200}
       >
-        <TouchableWithoutFeedback>
-          <>
-            <View>
-              <Text style={styles.poolAmount}>1000000 $</Text>
-            </View>
-            <ChatSection />
-            <View style={styles.footer}>
-              <TextInput
-                value={input}
-                onChangeText={(text) => setInput(text)}
-                style={styles.textInput}
-              />
-              <TouchableOpacity onPress={sendMessage} activeOpacity={0.5}>
-                <Ionicons name="send" size={24} color="black" />
-              </TouchableOpacity>
-            </View>
-            <Slider
-              tapToSeek
-              onValueChange={onSliderChange}
-              style={{ width: "100%", height: 40 }}
-              minimumValue={0}
-              maximumValue={1}
-              minimumTrackTintColor="#FFFFFF"
-              maximumTrackTintColor="#000000"
-            />
-          </>
-        </TouchableWithoutFeedback>
+        <View>
+          <Text style={styles.poolAmount}>1000000 $</Text>
+        </View>
+        <ChatSection />
+
+        <View style={styles.footer}>
+          <TextInput
+            keyboardType="numeric"
+            value={input}
+            onChangeText={textChangeHandler}
+            style={styles.textInput}
+          />
+          <TouchableOpacity onPress={submitHandler} activeOpacity={0.5}>
+            <Ionicons name="send" size={24} color="black" />
+          </TouchableOpacity>
+        </View>
+
+        <Slider
+          value={Number(input)}
+          onValueChange={onSliderChange}
+          maximumValue={100}
+          containerStyle={styles.input}
+          minimumValue={0}
+          trackClickable={false}
+          thumbTouchSize={styles.thumb}
+          // minimumTrackTintColor="#FFFFFF"
+          // maximumTrackTintColor="#000000"
+        />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -95,4 +135,6 @@ const styles = StyleSheet.create({
     color: "grey",
     borderRadius: 30,
   },
+  input: { width: "100%", height: 40 },
+  thumb: { width: 1200, height: 40 },
 });
