@@ -8,13 +8,13 @@ import socket from "../../utils/socket";
 const ChatSection = () => {
   const [message, setMessage] = useState<Message[] | []>([]);
   useEffect(() => {
-    const messageHandler = (message) => {
+    const messageHandler = (message: Message) => {
       setMessage((prevMe) => [
         ...prevMe,
         {
           id: message.id,
           username: message.username,
-          content: message.text,
+          content: message.content,
           createdAt: message.createdAt,
         },
       ]);
@@ -41,7 +41,7 @@ const ChatSection = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 6,
     // alignItems: "center",
     // justifyContent: "center",
     // backgroundColor: "white",

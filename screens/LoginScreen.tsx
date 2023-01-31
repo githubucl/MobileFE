@@ -10,14 +10,12 @@ import {
 import { Button, Input, Image, Icon } from "@rneui/themed";
 import { useThemeColor } from "../components/Themed";
 import React, { useState } from "react";
-
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { AntDesign } from "@expo/vector-icons";
 const LoginScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [table, setTable] = useState("");
-  const textColor = useThemeColor(
-    { light: "#eee", dark: "rgba(255,255,255,0.1)" },
-    "text"
-  );
+  const textColor = useThemeColor({ light: "#eee", dark: "#eee" }, "text");
   const onPressRegister = () => {
     navigation.navigate("Register");
   };
@@ -34,9 +32,8 @@ const LoginScreen = ({ navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <TouchableWithoutFeedback onPress={hideKeyboard}>
-        <Icon
-          name="skull-outline"
-          type="ionicon"
+        <AntDesign
+          name="star"
           size={100}
           color="pink"
           style={{ height: 200 }}
@@ -49,21 +46,14 @@ const LoginScreen = ({ navigation }) => {
           autoFocus
           value={name}
           onChangeText={(text) => setName(text)}
-          leftIcon={
-            <Icon
-              name="person-circle-outline"
-              type="ionicon"
-              size={24}
-              color="pink"
-            />
-          }
+          leftIcon={<AntDesign name="user" size={24} color="pink" />}
         />
         <Input
           style={[{ color: textColor }, styles.input]}
           placeholder="Table"
           value={table}
           onChangeText={(text) => setTable(text)}
-          leftIcon={<Icon name="cash" type="ionicon" size={24} color="pink" />}
+          leftIcon={<Ionicons name="cash" size={24} color="pink" />}
         />
       </View>
 

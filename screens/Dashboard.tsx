@@ -1,4 +1,4 @@
-import react, { useState, useEffect } from "react";
+import react, { useRef, useState, useEffect } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -6,14 +6,13 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import * as Haptics from "expo-haptics";
-import EditScreenInfo from "../components/EditScreenInfo";
+
 import { Ionicons } from "@expo/vector-icons";
 import { Text, View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
 import ChatSection from "../components/ChatSection";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Slider } from "@miblanchard/react-native-slider";
+import ControlPanel from "../components/ControlPanel";
 import socket from "../utils/socket";
 
 export default function Dashboard({ navigation }) {
@@ -22,11 +21,7 @@ export default function Dashboard({ navigation }) {
     pot: 0,
     users: [],
   });
-  const onSliderChange = (e) => {
-    setInput(`${e[0].toFixed(0)}`);
-    Platform.OS !== "web" &&
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-  };
+
   //get the name and table from the navigation params
   const { name, table } = navigation.getState().routes[0].params;
 
@@ -65,7 +60,6 @@ export default function Dashboard({ navigation }) {
 
   useEffect(() => {
     const potUpdateHandler = (roomInfo) => {
-      console.log("hji", roomInfo);
       setRoomInfo(roomInfo);
     };
     socket.on("potUpdate", potUpdateHandler);
@@ -79,40 +73,27 @@ export default function Dashboard({ navigation }) {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
-        keyboardVerticalOffset={200}
-      >
-        <View>
-          <Text style={styles.poolAmount}>{roomInfo?.pot}</Text>
-        </View>
-        <ChatSection />
+    <View style={{ flex: 1 }}>
+      <View style={styles.poolAmountSection}>
+        <Text style={styles.poolAmountText}>{roomInfo?.pot}</Text>
+      </View>
 
-        <View style={styles.footer}>
-          <TextInput
-            keyboardType="numeric"
-            value={input}
-            onChangeText={textChangeHandler}
-            style={styles.textInput}
-          />
-          <TouchableOpacity onPress={submitHandler} activeOpacity={0.5}>
-            <Ionicons name="send" size={24} color="black" />
-          </TouchableOpacity>
-        </View>
+      <ChatSection />
 
-        <Slider
-          value={Number(input)}
-          onValueChange={onSliderChange}
-          maximumValue={100}
-          containerStyle={styles.input}
-          minimumValue={-100}
-          trackClickable={false}
-          thumbTouchSize={styles.thumb}
+      <View style={styles.submit}>
+        <TextInput
+          keyboardType="numeric"
+          value={input}
+          onChangeText={textChangeHandler}
+          style={styles.textInput}
         />
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        <TouchableOpacity onPress={submitHandler} activeOpacity={0.5}>
+          <Ionicons name="send" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
+
+      <ControlPanel setInput={setInput} />
+    </View>
   );
 }
 
@@ -126,19 +107,28 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
-  poolAmount: {
+  poolAmountText: {
     padding: 10,
     width: "100%",
     textAlign: "center",
-    // alignItems: "center",
-    // justifyContent: "center",
     fontSize: 40,
   },
-  footer: {
+  poolAmountSection: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  chatSection: {
+    flex: 6,
+  },
+  submit: {
+    flex: 0.5,
+
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
     padding: 15,
+    backgroundColor: "#DEE9F7",
   },
   textInput: {
     bottom: 0,
@@ -150,6 +140,6 @@ const styles = StyleSheet.create({
     color: "grey",
     borderRadius: 30,
   },
-  input: { width: "100%", height: 40 },
-  thumb: { width: 1200, height: 40 },
+  input: { width: "100%", height: 100 },
+  thumb: { opacity: 0 },
 });

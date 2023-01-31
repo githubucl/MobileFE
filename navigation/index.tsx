@@ -50,13 +50,9 @@ export default function Navigation({
  */
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-const globalScreenOptions = {};
 function RootNavigator() {
   return (
-    <Stack.Navigator
-      initialRouteName="Login"
-      screenOptions={globalScreenOptions}
-    >
+    <Stack.Navigator initialRouteName="Login">
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Dashboard" component={Dashboard} />
       <Stack.Screen name="Register" component={RegisterScreen} />
@@ -92,7 +88,7 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="Dashboard"
         component={Dashboard}
-        options={({ navigation }: RootTabScreenProps<"Dashboard">) => ({
+        options={({ navigation }) => ({
           title: "Pukemon",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
