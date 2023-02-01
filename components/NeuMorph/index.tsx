@@ -1,45 +1,68 @@
 import React, { useCallback, useState } from "react";
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import {
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+  Platform,
+} from "react-native";
+
 type TNeuMorph = {
   children?: any;
-
+  isPressed: boolean;
   style?: any;
 };
-const NeuMorph = ({ children, style }: TNeuMorph) => {
-  const [isPressed, setIsPressed] = useState(false);
-  const handlePressIn = useCallback(() => {
-    setIsPressed(true);
-  }, [setIsPressed]);
-  const handlePressOut = useCallback(() => {}, []);
+const NeuMorph = ({ children, style, isPressed }: TNeuMorph) => {
+  const topShadowStyle = isPressed
+    ? {
+        shadowOffset: {
+          width: -5,
+          height: -5,
+        },
+        shadowRadius: 6,
+      }
+    : {
+        shadowOffset: {
+          width: -25,
+          height: -25,
+        },
+        shadowRadius: 12,
+      };
+
+  const bottomShadowStyle = isPressed
+    ? {
+        shadowOffset: {
+          width: 5,
+          height: 5,
+        },
+        shadowRadius: 6,
+      }
+    : {
+        shadowOffset: {
+          width: 25,
+          height: 25,
+        },
+        shadowRadius: 12,
+      };
+
   return (
-    <TouchableWithoutFeedback
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-    >
-      <View style={styles.topShadow}>
-        <View style={styles.bottomShadow}>
-          <LinearGradient
-            // Button Linear Gradient
-            colors={["#4c669f", "#3b5998", "#192f6a"]}
-          >
-            <View
-              style={[
-                styles.inner,
-                {
-                  width: "80%",
-                  height: "80%",
-                  borderRadius: 50,
-                },
-                style,
-              ]}
-            >
-              {children}
-            </View>
-          </LinearGradient>
+    <View style={[styles.topShadow, topShadowStyle]}>
+      <View style={[styles.bottomShadow, bottomShadowStyle]}>
+        <View
+          style={[
+            styles.inner,
+            {
+              width: "80%",
+              height: "80%",
+              borderRadius: 50,
+            },
+            style,
+          ]}
+        >
+          {children}
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    </View>
   );
 };
 
@@ -47,23 +70,14 @@ const styles = StyleSheet.create({
   topShadow: {
     width: "100%",
     height: "100%",
-    shadowOffset: {
-      width: -6,
-      height: -6,
-    },
+
     shadowOpacity: 1,
-    shadowRadius: 6,
     shadowColor: "#FBFFFF",
   },
   bottomShadow: {
     width: "100%",
     height: "100%",
-    shadowOffset: {
-      width: 6,
-      height: 6,
-    },
     shadowOpacity: 1,
-    shadowRadius: 12,
     shadowColor: "#B7C4DD",
     alignContent: "center",
     justifyContent: "center",

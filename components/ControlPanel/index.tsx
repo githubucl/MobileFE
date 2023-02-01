@@ -1,16 +1,9 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Platform,
-  PanResponder,
-  Image,
-} from "react-native";
+import React, { useState, useCallback } from "react";
+import { View, StyleSheet, Platform, PanResponder } from "react-native";
 import NeuMorph from "../NeuMorph";
 import * as Haptics from "expo-haptics";
 import Neumorphism from "react-native-neumorphism";
-import { Shadow } from "react-native-neomorph-shadows";
+
 type TControlPanel = {
   setInput: React.Dispatch<React.SetStateAction<string>>;
 };
@@ -18,17 +11,29 @@ type TControlPanel = {
 const ControlPanel = ({ setInput }: TControlPanel): JSX.Element => {
   const [increment, setIncrement] = useState(1);
   const [number, setNumber] = useState(0);
+  const [isPressed, setIsPressed] = useState(false);
+  const handlePressIn = useCallback(() => {
+    setIsPressed(true);
+    Platform.OS !== "web" &&
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+  }, [setIsPressed]);
+  const handlePressOut = useCallback(() => {
+    setIsPressed(false);
+  }, [setIsPressed]);
+
   const panResponder = PanResponder.create({
-    onMoveShouldSetPanResponder: (evt, gestureState) => {
-      const { dx } = gestureState;
-      if (Math.abs(dx) > 10) {
-        return true;
-      }
-      return false;
+    onStartShouldSetPanResponder: () => {
+      handlePressIn();
+      return true;
     },
+    onPanResponderRelease: (evt, gestureState) => {
+      handlePressOut();
+    },
+
     onPanResponderMove: (evt, gestureState) => {
       Platform.OS !== "web" &&
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+
       const { dx } = gestureState;
       setNumber((number) => number + dx * increment);
       setInput(number.toFixed(0).toString());
@@ -44,9 +49,9 @@ const ControlPanel = ({ setInput }: TControlPanel): JSX.Element => {
           shapeType={"flat"}
           radius={50}
           style={{ width: "80%", height: "80%" }}
-        ></Neumorphism>
+        />
       ) : (
-        <NeuMorph style={styles.panel} />
+        <NeuMorph style={styles.panel} isPressed={isPressed} />
       )}
     </View>
   );
