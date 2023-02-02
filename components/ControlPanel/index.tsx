@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback,useEffect } from "react";
 import { View, StyleSheet, Platform, PanResponder } from "react-native";
 import NeuMorph from "../NeuMorph";
 import * as Haptics from "expo-haptics";
@@ -12,6 +12,10 @@ const ControlPanel = ({ setInput }: TControlPanel): JSX.Element => {
   const [increment, setIncrement] = useState(1);
   const [number, setNumber] = useState(0);
   const [isPressed, setIsPressed] = useState(false);
+  useEffect(()=>{
+    Platform.OS !== "web" &&
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+  },[number])
   const handlePressIn = useCallback(() => {
     setIsPressed(true);
     Platform.OS !== "web" &&
@@ -22,18 +26,17 @@ const ControlPanel = ({ setInput }: TControlPanel): JSX.Element => {
   }, [setIsPressed]);
 
   const panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: () => {
+    onStartShouldSetPanResponder: () => true
+    ,
+
+    onPanResponderGrant: (evt, gestureState) => {
       handlePressIn();
-      return true;
     },
     onPanResponderRelease: (evt, gestureState) => {
       handlePressOut();
     },
 
     onPanResponderMove: (evt, gestureState) => {
-      Platform.OS !== "web" &&
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-
       const { dx } = gestureState;
       setNumber((number) => number + dx * increment);
       setInput(number.toFixed(0).toString());
