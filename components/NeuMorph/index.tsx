@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,13 +11,17 @@ type TNeuMorph = {
   children?: any;
   isPressed: boolean;
   style?: any;
+  horizontal: number;
 };
-const NeuMorph = ({ children, style, isPressed }: TNeuMorph) => {
+const NeuMorph = ({ children, style, isPressed, horizontal }: TNeuMorph) => {
+  const [width, setWidth] = useState(0);
+  // console.log(5 + (horizontal / width) * 20);
+  // console.log("horizontal", horizontal);
   const topShadowStyle = isPressed
     ? {
         shadowOffset: {
-          width: -5,
-          height: -5,
+          width: 5 + (horizontal / width) * 20,
+          height: 5 + (horizontal / width) * 20,
         },
         shadowRadius: 6,
       }
@@ -32,8 +36,8 @@ const NeuMorph = ({ children, style, isPressed }: TNeuMorph) => {
   const bottomShadowStyle = isPressed
     ? {
         shadowOffset: {
-          width: 5,
-          height: 5,
+          width: -5 - (horizontal / width) * 20,
+          height: -5 - (horizontal / width) * 20,
         },
         shadowRadius: 6,
       }
@@ -49,11 +53,12 @@ const NeuMorph = ({ children, style, isPressed }: TNeuMorph) => {
     <View style={[styles.topShadow, topShadowStyle]}>
       <View style={[styles.bottomShadow, bottomShadowStyle]}>
         <View
+          onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
           style={[
             styles.inner,
             {
-              width: "80%",
-              height: "80%",
+              width: "100%",
+              height: "100%",
               borderRadius: 50,
             },
             style,
