@@ -10,18 +10,16 @@ import {
 type TNeuMorph = {
   children?: any;
   isPressed: boolean;
-  style?: any;
   horizontal: number;
 };
-const NeuMorph = ({ children, style, isPressed, horizontal }: TNeuMorph) => {
+const NeuMorph = ({ children, isPressed, horizontal }: TNeuMorph) => {
   const [width, setWidth] = useState(0);
-  // console.log(5 + (horizontal / width) * 20);
-  // console.log("horizontal", horizontal);
+
   const topShadowStyle = isPressed
     ? {
         shadowOffset: {
-          width: 5 + (horizontal / width) * 20,
-          height: 5 + (horizontal / width) * 20,
+          width: 5 + (horizontal / width) * 10,
+          height: 5 + (horizontal / width) * 10,
         },
         shadowRadius: 6,
       }
@@ -36,8 +34,8 @@ const NeuMorph = ({ children, style, isPressed, horizontal }: TNeuMorph) => {
   const bottomShadowStyle = isPressed
     ? {
         shadowOffset: {
-          width: -5 - (horizontal / width) * 20,
-          height: -5 - (horizontal / width) * 20,
+          width: -5 - (horizontal / width) * 10,
+          height: -5 - (horizontal / width) * 10,
         },
         shadowRadius: 6,
       }
@@ -54,15 +52,7 @@ const NeuMorph = ({ children, style, isPressed, horizontal }: TNeuMorph) => {
       <View style={[styles.bottomShadow, bottomShadowStyle]}>
         <View
           onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
-          style={[
-            styles.inner,
-            {
-              width: "100%",
-              height: "100%",
-              borderRadius: 50,
-            },
-            style,
-          ]}
+          style={[styles.inner]}
         >
           {children}
         </View>
@@ -89,6 +79,10 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   inner: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 50,
+
     backgroundColor: "#DEE9F7",
     alignItems: "center",
     justifyContent: "center",
