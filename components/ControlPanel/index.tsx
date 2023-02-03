@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import NeuMorph from "../NeuMorph";
 import * as Haptics from "expo-haptics";
-import Neumorphism from "react-native-neumorphism";
 
 type TControlPanel = {
   setInput: React.Dispatch<React.SetStateAction<string>>;
@@ -62,18 +61,13 @@ const ControlPanel = ({ setInput }: TControlPanel): JSX.Element => {
     <View style={styles.container}>
       <View
         {...panResponder.panHandlers}
-        style={{ width: "80%", height: "80%" }}
+        style={{ width: "80%", height: "60%", marginTop: 20 }}
       >
-        {Platform.OS === "web" ? (
-          <Neumorphism
-            lightColor={"#FBFFFF"}
-            darkColor={"#B7C4DD"}
-            shapeType={"flat"}
-            radius={50}
-          />
-        ) : (
-          <NeuMorph isPressed={isPressed} horizontal={horizontal} />
-        )}
+        <NeuMorph
+          isPressed={isPressed}
+          horizontal={horizontal}
+          shadowOffset={10}
+        />
       </View>
     </View>
   );
@@ -84,7 +78,7 @@ const styles = StyleSheet.create({
     flex: 3,
     backgroundColor: "#DEE9F7",
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
 });
 

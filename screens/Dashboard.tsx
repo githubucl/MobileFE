@@ -9,7 +9,7 @@ import {
 
 import { Ionicons } from "@expo/vector-icons";
 import { Text, View } from "../components/Themed";
-import { RootTabScreenProps } from "../types";
+import SubmitButton from "../components/SubmitButton";
 import ChatSection from "../components/ChatSection";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ControlPanel from "../components/ControlPanel";
@@ -80,17 +80,7 @@ export default function Dashboard({ navigation }) {
 
       <ChatSection />
 
-      <View style={styles.submit}>
-        <TextInput
-          keyboardType="numeric"
-          value={input}
-          onChangeText={textChangeHandler}
-          style={styles.textInput}
-        />
-        <TouchableOpacity onPress={submitHandler} activeOpacity={0.5}>
-          <Ionicons name="send" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
+      <SubmitButton />
 
       <ControlPanel setInput={setInput} />
     </View>
@@ -100,8 +90,6 @@ export default function Dashboard({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
   },
   title: {
     fontSize: 20,
@@ -121,25 +109,4 @@ const styles = StyleSheet.create({
   chatSection: {
     flex: 6,
   },
-  submit: {
-    flex: 0.5,
-
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    padding: 15,
-    backgroundColor: "#DEE9F7",
-  },
-  textInput: {
-    bottom: 0,
-    height: 40,
-    flex: 1,
-    marginRight: 15,
-    backgroundColor: "#ECECEC",
-    padding: 10,
-    color: "grey",
-    borderRadius: 30,
-  },
-  input: { width: "100%", height: 100 },
-  thumb: { opacity: 0 },
 });
