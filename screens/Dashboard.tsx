@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import * as Haptics from "expo-haptics";
 
 import { Ionicons } from "@expo/vector-icons";
 import { Text, View } from "../components/Themed";
@@ -13,11 +14,13 @@ import SubmitButton from "../components/SubmitButton";
 import ChatSection from "../components/ChatSection";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ControlPanel from "../components/ControlPanel";
+import PotSize from "../components/PotSize";
 import socket from "../utils/socket";
+import { RoomInfo } from "../types";
 
 export default function Dashboard({ navigation }) {
-  const [input, setInput] = useState("");
-  const [roomInfo, setRoomInfo] = useState({
+  const [number, setNumber] = useState(0);
+  const [roomInfo, setRoomInfo] = useState<RoomInfo>({
     pot: 0,
     users: [],
   });
@@ -25,28 +28,14 @@ export default function Dashboard({ navigation }) {
   //get the name and table from the navigation params
   const { name, table } = navigation.getState().routes[0].params;
 
-  const textChangeHandler = (text: string) => {
-    let newText = "";
-    let numbers = "0123456789";
-
-    for (var i = 0; i < text.length; i++) {
-      if (numbers.indexOf(text[i]) > -1) {
-        newText = newText + text[i];
-      } else {
-        alert("please enter numbers only");
-      }
-    }
-    setInput(newText);
-  };
-  const submitHandler = (e) => {
-    e.preventDefault();
-    socket.emit("chipAction", input, (error) => {
+  const submitHandler = () => {
+    socket.emit("chipAction", number, (error) => {
       if (error) {
         return console.log(error);
       }
       console.log("message delitered");
     });
-    setInput("");
+    setNumber(0);
   };
 
   useEffect(() => {
@@ -59,7 +48,7 @@ export default function Dashboard({ navigation }) {
   }, []);
 
   useEffect(() => {
-    const potUpdateHandler = (roomInfo) => {
+    const potUpdateHandler = (roomInfo: RoomInfo) => {
       setRoomInfo(roomInfo);
     };
     socket.on("potUpdate", potUpdateHandler);
@@ -72,41 +61,19 @@ export default function Dashboard({ navigation }) {
     };
   }, []);
 
+  useEffect(() => {
+    Platform.OS !== "web" && Haptics.selectionAsync();
+  }, [number]);
   return (
     <View style={{ flex: 1 }}>
-      <View style={styles.poolAmountSection}>
-        <Text style={styles.poolAmountText}>{roomInfo?.pot}</Text>
-      </View>
-
+      <PotSize pot={roomInfo?.pot} />
       <ChatSection />
 
-      <SubmitButton />
+      <SubmitButton number={number} submitHandler={submitHandler} />
 
-      <ControlPanel setInput={setInput} />
+      <ControlPanel setNumber={setNumber} />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  poolAmountText: {
-    padding: 10,
-    width: "100%",
-    textAlign: "center",
-    fontSize: 40,
-  },
-  poolAmountSection: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  chatSection: {
-    flex: 6,
-  },
-});
+const styles = StyleSheet.create({});

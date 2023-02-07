@@ -3890,11 +3890,6 @@
   dependencies:
     "color-name" "~1.1.4"
 
-"color-convert@~0.5.0":
-  "integrity" "sha512-RwBeO/B/vZR3dfKL1ye/vx8MHZ40ugzpyfeVG5GsiuGnrlMWe2o8wxBbLCpw9CsxV+wHuzYlCiWnybrIA0ling=="
-  "resolved" "https://registry.npmjs.org/color-convert/-/color-convert-0.5.3.tgz"
-  "version" "0.5.3"
-
 "color-name@^1.0.0", "color-name@~1.1.4":
   "integrity" "sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA=="
   "resolved" "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz"
@@ -9335,13 +9330,6 @@
     "pbkdf2" "^3.0.3"
     "safe-buffer" "^5.1.1"
 
-"parse-color@^1.0.0":
-  "integrity" "sha512-fuDHYgFHJGbpGMgw9skY/bj3HL/Jrn4l/5rSspy00DoT4RyLnDcRvPxdZ+r6OFwIsgAuhDh4I09tAId4mI12bw=="
-  "resolved" "https://registry.npmjs.org/parse-color/-/parse-color-1.0.0.tgz"
-  "version" "1.0.0"
-  dependencies:
-    "color-convert" "~0.5.0"
-
 "parse-json@^4.0.0":
   "integrity" "sha512-aOIos8bujGN93/8Ox/jPLh7RwVnPEysynVFE+fQZyg6jKELEHwzgKdLRFHUgXJL6kylijVSBC4BvN9OmsB48Rw=="
   "resolved" "https://registry.npmjs.org/parse-json/-/parse-json-4.0.0.tgz"
@@ -10316,13 +10304,6 @@
   "integrity" "sha512-+4JpbIx42zGTONhBTIXSyfyHICHC29VTvhkkoUOJAh/XHPEixpuBduYgf6Y4y9wsN1ARlQhBBoptTvXvAFQf5g=="
   "resolved" "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.0.7.tgz"
   "version" "0.0.7"
-
-"react-native-neumorphism@^0.1.5":
-  "integrity" "sha512-LCx+LIiltx7SQxNgCcV70/nAcP9LjW/mUxJ/qXhetoHj6SgAqRo9yWQ9HBluTnOwRtRvecdai8CQD6JnQE0D5Q=="
-  "resolved" "https://registry.npmjs.org/react-native-neumorphism/-/react-native-neumorphism-0.1.5.tgz"
-  "version" "0.1.5"
-  dependencies:
-    "parse-color" "^1.0.0"
 
 "react-native-ratings@^8.1.0":
   "integrity" "sha512-+QOJ4G3NjVkI1D+tk4EGx1dCvVfbD2nQdkrj9cXrcAoEiwmbep4z4bZbCKmWMpQ5h2dqbxABU8/eBnbDmvAc3g=="

@@ -44,3 +44,8 @@ export type Message = {
   createdAt: string;
   username: string;
 };
+
+export type RoomInfo = {
+  pot: number;
+  users: any[];
+};

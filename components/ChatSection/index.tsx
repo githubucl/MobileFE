@@ -29,12 +29,14 @@ const ChatSection = () => {
   }, []);
   return (
     <View style={styles.container}>
-      <FlatList
-        data={message || chats}
-        renderItem={({ item }) => {
-          return <ChatMessage message={item} />;
-        }}
-      />
+      <View style={styles.chatContainer}>
+        <FlatList
+          data={message || chats}
+          renderItem={({ item }) => {
+            return <ChatMessage message={item} />;
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -42,10 +44,13 @@ const ChatSection = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 6,
-    // alignItems: "center",
-    // justifyContent: "center",
-    // backgroundColor: "white",
-    // height: 400,
+    alignItems: "center",
+    padding: 20,
+    backgroundColor: "#DEE9F7",
+  },
+  chatContainer: {
+    width: "80%",
+    height: "100%",
   },
 });
 
