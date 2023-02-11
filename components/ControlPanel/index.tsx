@@ -14,8 +14,6 @@ type TControlPanel = {
 };
 
 const ControlPanel = ({ setNumber }: TControlPanel): JSX.Element => {
-  const [increment, setIncrement] = useState(5);
-
   const [isPressed, setIsPressed] = useState(false);
   const [initial, setInitial] = useState(0);
 
@@ -23,8 +21,8 @@ const ControlPanel = ({ setNumber }: TControlPanel): JSX.Element => {
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
-    onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-    onPanResponderGrant: (evt, gestureState) => {
+    onStartShouldSetPanResponderCapture: () => true,
+    onPanResponderGrant: () => {
       setIsPressed(true);
       Platform.OS !== "web" &&
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);

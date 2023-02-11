@@ -47,5 +47,15 @@ export type Message = {
 
 export type RoomInfo = {
   pot: number;
-  users: any[];
+  users: UserInfo[];
+  highestBet: number;
+};
+
+export type UserInfo = {
+  username: string;
+  id: string;
+  onLine: boolean;
+  stake: number;
+  totalBuyIn: number;
+  roundBet: number;
 };

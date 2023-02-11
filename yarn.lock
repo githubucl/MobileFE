@@ -9562,6 +9562,11 @@
   dependencies:
     "ts-pnp" "^1.1.6"
 
+"poker-odds@^1.0.1":
+  "integrity" "sha512-23EbEsyO+DHeXRkKbmdOWMdj+QInfc4AjL7PhnXtDc1VIQnfzK6jbY4sT75H6KSF6sFOPSKyX9tb0hqcJaAWqA=="
+  "resolved" "https://registry.npmjs.org/poker-odds/-/poker-odds-1.0.1.tgz"
+  "version" "1.0.1"
+
 "portfinder@^1.0.26":
   "integrity" "sha512-on2ZJVVDXRADWE6jnQaX0ioEylzgBpQk8r55NE4wjXW1ZxO+BgDlY6DXwj20i0V8eB4SenDQ00WEaxfiIQPcxg=="
   "resolved" "https://registry.npmjs.org/portfinder/-/portfinder-1.0.32.tgz"

@@ -25,15 +25,15 @@ const SubmitButton = ({
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
-    onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-    onPanResponderGrant: (evt, gestureState) => {
+    onStartShouldSetPanResponderCapture: () => true,
+    onPanResponderGrant: () => {
       setIsPressed(true);
       Platform.OS !== "web" &&
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     },
     onPanResponderRelease: () => {
       setIsPressed(false);
-      submitHandler();
+      number !== 0 && submitHandler();
     },
     onPanResponderStart: (evt, { dx, x0 }) => {
       setInitial(x0);
