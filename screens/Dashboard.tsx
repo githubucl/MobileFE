@@ -10,11 +10,11 @@ import * as Haptics from "expo-haptics";
 
 import { Text, View } from "../components/Themed";
 import SubmitButton from "../components/SubmitButton";
-import ChatSection from "../components/ChatSection";
-
+import Swipeable from "../components/Swipeable";
 import ControlPanel from "../components/ControlPanel";
 import PotSize from "../components/PotSize";
 import socket from "../utils/socket";
+
 import { RoomInfo, UserInfo } from "../types";
 import { calculateEquity } from "poker-odds";
 export default function Dashboard({ navigation }) {
@@ -46,18 +46,18 @@ export default function Dashboard({ navigation }) {
       }
     });
   }, []);
-  const hands = [
-    ["As", "Kh"],
-    // ["Kd", "Qs"],
-  ];
-  const board = ["Td", "7s", "8d", "8h"];
-  const iterations = 100000; // optional
-  const exhaustive = false; // optional
+  // const hands = [
+  //   ["As", "Kh"],
+  //   // ["Kd", "Qs"],
+  // ];
+  // const board = ["Td", "7s", "8d", "8h"];
+  // const iterations = 100000; // optional
+  // const exhaustive = false; // optional
 
-  console.log(
-    "calculateEquity(hands, board, iterations, exhaustive);",
-    calculateEquity(hands, board, iterations, exhaustive)
-  );
+  // console.log(
+  //   "calculateEquity(hands, board, iterations, exhaustive);",
+  //   calculateEquity(hands, board, iterations, exhaustive)
+  // );
   useEffect(() => {
     const potUpdateHandler = (roomInfo: RoomInfo) => {
       setRoomInfo(roomInfo);
@@ -84,8 +84,7 @@ export default function Dashboard({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
       <PotSize pot={roomInfo?.pot} />
-      <ChatSection />
-
+      <Swipeable />
       <SubmitButton number={number} submitHandler={submitHandler} />
 
       <ControlPanel setNumber={setNumber} />
