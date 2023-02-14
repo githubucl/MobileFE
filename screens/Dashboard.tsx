@@ -26,7 +26,8 @@ export default function Dashboard({ navigation }) {
   });
 
   //get the name and table from the navigation params
-  const { name, table } = navigation.getState().routes[0].params;
+  const { name, table }: { name: string; table: string } =
+    navigation.getState().routes[0].params;
 
   const submitHandler = () => {
     socket.emit("chipAction", number, (error) => {
@@ -65,7 +66,7 @@ export default function Dashboard({ navigation }) {
       setNumber(
         roomInfo.highestBet -
           roomInfo.users.filter((user: UserInfo) => {
-            return user.username === name;
+            return user.username === name?.toString()?.toLowerCase();
           })?.[0]?.roundBet || 0
       );
     };
