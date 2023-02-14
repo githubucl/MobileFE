@@ -43,7 +43,7 @@ const ChatSection = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 6,
+    flex: 1,
     alignItems: "center",
     padding: 20,
     backgroundColor: "#DEE9F7",

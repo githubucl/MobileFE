@@ -1,25 +1,33 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { Dimensions, Text, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import ChatSection from "./ChatSection";
-import "react-native-reanimated";
-function Index() {
-  const width = Dimensions.get("window").width;
+import { useSharedValue } from "react-native-reanimated";
+
+const verticleSwipeable = () => {
+  const [height, setHeight] = useState(10);
   return (
-    <View style={{ flex: 1 }}>
+    <View
+      style={{ flex: 6 }}
+      onLayout={(e) => setHeight(e.nativeEvent.layout.height)}
+    >
       <Carousel
-        loop
-        width={width}
-        height={width / 2}
-        autoPlay={true}
-        data={[...new Array(6).keys()]}
-        scrollAnimationDuration={1000}
-        onSnapToItem={(index) => {}}
-        renderItem={({ index }) => (
+        loop={false}
+        height={height}
+        vertical
+        data={[...new Array(3).keys()]}
+        scrollAnimationDuration={200}
+        withAnimation={{
+          type: "spring",
+          config: {
+            damping: 15,
+          },
+        }}
+        renderItem={({ index }: { index: number }) => (
           <View
             style={{
               flex: 1,
-              borderWidth: 1,
+
               justifyContent: "center",
             }}
           >
@@ -29,6 +37,27 @@ function Index() {
       />
     </View>
   );
-}
+};
 
-export default Index;
+const Swipeable = () => {
+  const width = Dimensions.get("window").width;
+  return (
+    <View style={{ flex: 6 }}>
+      <Carousel
+        loop={false}
+        width={width}
+        data={[ChatSection, ChatSection]}
+        scrollAnimationDuration={200}
+        withAnimation={{
+          type: "spring",
+          config: {
+            damping: 15,
+          },
+        }}
+        renderItem={({ item }) => item()}
+      />
+    </View>
+  );
+};
+
+export default Swipeable;
