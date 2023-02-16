@@ -88,7 +88,7 @@ export default function Dashboard({ navigation }) {
       <Swipeable />
       <SubmitButton number={number} submitHandler={submitHandler} />
 
-      <ControlPanel setNumber={setNumber} />
+      <ControlPanel setNumber={setNumber} number={number} />
     </View>
   );
 }
