@@ -140,5 +140,10 @@ const styles = StyleSheet.create({
     borderColor: "#E2ECFD",
     // borderWidth: 1,
   },
+  childrenContainer: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
 });
 export default NeuMorph;
