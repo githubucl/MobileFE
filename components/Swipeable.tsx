@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Dimensions, Text, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import ChatSection from "./ChatSection";
-import { useSharedValue } from "react-native-reanimated";
+import Possibility from "./Possibility";
 
 const verticleSwipeable = () => {
   const [height, setHeight] = useState(10);
@@ -42,11 +42,11 @@ const verticleSwipeable = () => {
 const Swipeable = () => {
   const width = Dimensions.get("window").width;
   return (
-    <View style={{ flex: 6 }}>
+    <View style={{ flex: 6, backgroundColor: "#DEE9F7" }}>
       <Carousel
         loop={false}
         width={width}
-        data={[ChatSection, ChatSection]}
+        data={[ChatSection, Possibility]}
         scrollAnimationDuration={200}
         withAnimation={{
           type: "spring",

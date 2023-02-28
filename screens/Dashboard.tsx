@@ -83,7 +83,7 @@ export default function Dashboard({ navigation }) {
     Platform.OS !== "web" && Haptics.selectionAsync();
   }, [number]);
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 }} overscroll-behavior="contain">
       <PotSize pot={roomInfo?.pot} />
       <Swipeable />
       <SubmitButton number={number} submitHandler={submitHandler} />
