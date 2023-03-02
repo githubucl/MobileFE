@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
+    "@expo/ngrok": "github:expo/ngrok",
     "@expo/vector-icons": "^13.0.0",
     "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/native": "^6.0.2",

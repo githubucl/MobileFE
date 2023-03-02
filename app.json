@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "MobileFE",
-    "slug": "MobileFE",
+    "slug": "pukemon",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -19,7 +19,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.chrischen97.pukemon"
     },
     "android": {
       "adaptiveIcon": {
@@ -29,6 +30,12 @@
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
+    },
+    "owner": "chrischen97",
+    "extra": {
+      "eas": {
+        "projectId": "b4f5e516-d254-4045-b142-7783aebbcbbd"
+      }
     }
   }
 }
