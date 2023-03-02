@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dimensions, Text, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import ChatSection from "./ChatSection";
@@ -40,13 +40,26 @@ const verticleSwipeable = () => {
 };
 
 const Swipeable = () => {
-  const width = Dimensions.get("window").width;
+  const [windowWidth, setWindowWidth] = useState(
+    Dimensions.get("window").width
+  );
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setWindowWidth(Dimensions.get("window").width);
+    };
+
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  });
   return (
     <View style={{ flex: 6, backgroundColor: "#DEE9F7" }}>
       <Carousel
         loop={false}
-        width={width}
-        data={[ChatSection, Possibility]}
+        width={windowWidth}
+        data={[ChatSection, ChatSection]}
         scrollAnimationDuration={200}
         withAnimation={{
           type: "spring",
