@@ -3,8 +3,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
-  TextInput,
-  TouchableOpacity,
+  BackHandler,
 } from "react-native";
 import * as Haptics from "expo-haptics";
 
@@ -82,8 +81,16 @@ export default function Dashboard({ navigation }) {
   useEffect(() => {
     Platform.OS !== "web" && Haptics.selectionAsync();
   }, [number]);
+
+  useEffect(() => {
+    navigation.addListener("beforeRemove", (e) => {
+      // Prevent default behavior of leaving the screen
+      console.log("e", e);
+      e.preventDefault();
+    });
+  }, [navigation]);
   return (
-    <View style={{ flex: 1 }} overscroll-behavior="contain">
+    <View style={{ flex: 1 }}>
       <PotSize pot={roomInfo?.pot} />
       <Swipeable />
       <SubmitButton number={number} submitHandler={submitHandler} />
